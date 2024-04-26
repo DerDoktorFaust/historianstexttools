@@ -16,7 +16,7 @@ setup(
     long_description=LONG_DESCRIPTION,
     readme="README.md",
     packages=find_packages(),
-    install_requires=[],
+    install_requires=["nltk>=3.8.1"],
 
     keywords=['python', 'historian', 'text', 'text-analysis'],
     classifiers=["Development Status :: 3 - Alpha",
