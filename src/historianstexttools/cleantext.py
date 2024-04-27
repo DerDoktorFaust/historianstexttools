@@ -1,9 +1,8 @@
 import re
 import nltk
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords, wordnet
 from nltk.tokenize import word_tokenize
 from nltk.stem import WordNetLemmatizer
-import spacy
 
 
 def clean_text(data, remove_punctuation=True, lowercase=True, removestopwords=True, stopwordslanguage='english',
@@ -48,11 +47,38 @@ def remove_frequent_words(data, frequentwords) -> str:
 
     return " ".join(filtered_data)
 
-def lemmatize_text(data, language='en') -> str:
+def lemmatize_text(data, language='english') -> str:
 
-    nlp = spacy.load("en_core_web_sm")
-    import en_core_web_sm
+    nltk.download('wordnet')
+    nltk.download('averaged_perceptron_tagger')
 
-    filtered_data = load_model(data)
+    lemmatizer = WordNetLemmatizer()
 
-    return " ".join([token.lemma_ for token in filtered_data])
+    # tokenize the sentence while also tagging it for part of speech
+    pos_tagged = nltk.pos_tag(nltk.word_tokenize(data))
+
+    data_tagged = list(map(lambda x: (x[0], part_of_speech_tagger(x[1])), pos_tagged))
+
+    lemmatized_data = []
+
+    for word, tag in data_tagged:
+        if tag is None:
+            lemmatized_data.append(word)
+        else:
+            lemmatized_data.append(lemmatizer.lemmatize(word, tag))
+
+    return " ".join(lemmatized_data)
+
+
+def part_of_speech_tagger(nltk_tag):
+    if nltk_tag.startswith('J'):
+        return wordnet.ADJ
+    elif nltk_tag.startswith('V'):
+        return wordnet.VERB
+    elif nltk_tag.startswith('N'):
+        return wordnet.NOUN
+    elif nltk_tag.startswith('R'):
+        return wordnet.ADV
+    else:
+        return None
+
