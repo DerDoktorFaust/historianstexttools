@@ -1,2 +1,2 @@
 ./src/historianstexttools/data
-./src/historianstexttools/test.py
+./src/historianstexttools/tester.py
