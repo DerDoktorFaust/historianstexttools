@@ -2,72 +2,89 @@ import re
 import nltk
 from nltk.corpus import stopwords, wordnet
 from nltk.tokenize import word_tokenize
-from nltk.stem import WordNetLemmatizer
+import dataloaders
 
 
-def clean_text(data, remove_punctuation=True, lowercase=True, removestopwords=True, stopwordslanguage='english',
-               removefrequentwords=False, frequentwords=[], lemmatize=True) -> str:
+def clean_text(documents, remove_punctuation=True, lowercase=True, removestopwords=True, stopwordslanguage='english',
+               removefrequentwords=False, frequentwords=[], lemmatize=True, lemmatizelanguage='english') -> str:
 
     if remove_punctuation == True:
-        data = remove_punct(data)
+        documents = remove_punct(documents)
 
     if lowercase == True:
-        data = apply_lowercase(data)
+        documents = apply_lowercase(documents)
 
     if removestopwords == True:
-        data = remove_stopwords(data, stopwordslanguage)
+        documents = remove_stopwords(documents, stopwordslanguage)
 
     if removefrequentwords == True:
-        data = remove_frequent_words(data, frequentwords)
+        documents = remove_frequent_words(documents, frequentwords)
 
-    return data
+    if lemmatize == True:
+        documents = lemmatize_text(documents, lemmatizelanguage)
 
-def remove_punct(data) -> str:
-    return re.sub(r'[^\w\s]', '', data)
+    return documents
+
+def remove_punct(documents) -> str:
+
+    docs = []
+
+    for doc in documents:
+        docs.append(re.sub(r'[^\w\s]', '', doc))
+
+    return docs
 
 
-def apply_lowercase(data) -> str:
-    return data.lower()
+def apply_lowercase(documents) -> str:
+
+    docs = []
+
+    for doc in documents:
+        docs.append(doc.lower())
+
+    return docs
 
 
-def remove_stopwords(data, language='english') -> str:
+def remove_stopwords(documents, language='english') -> str:
+
+    docs_without_stopwords = []
 
     nltk.download('stopwords')
     stop_words = set(stopwords.words(language))
-    word_tokens = word_tokenize(data)
-    filtered_data = [word for word in word_tokens if not word.lower() in stop_words]
 
-    return " ".join(filtered_data)
+    for doc in documents:
+        word_tokens = word_tokenize(doc)
+        filtered_data = [word for word in word_tokens if not word.lower() in stop_words]
+        docs_without_stopwords.append(" ".join(filtered_data))
+
+    return docs_without_stopwords
 
 
-def remove_frequent_words(data, frequentwords) -> str:
+def remove_frequent_words(documents, frequentwords) -> str:
 
-    word_tokens = word_tokenize(data)
-    filtered_data = [word for word in word_tokens if not word.lower() in frequentwords]
+    docs_without_frequentwords = []
 
-    return " ".join(filtered_data)
+    for doc in documents:
+        word_tokens = word_tokenize(doc)
+        filtered_data = [word for word in word_tokens if not word.lower() in frequentwords]
+        docs_without_frequentwords.append(" ".join(filtered_data))
 
-def lemmatize_text(data, language='english') -> str:
+    return docs_without_frequentwords
 
-    nltk.download('wordnet')
-    nltk.download('averaged_perceptron_tagger')
+def lemmatize_text(documents, language='english') -> str:
 
-    lemmatizer = WordNetLemmatizer()
+    import spacy
+    nlp = spacy.load(dataloaders.spacy_models[language])
 
-    # tokenize the sentence while also tagging it for part of speech
-    pos_tagged = nltk.pos_tag(nltk.word_tokenize(data))
+    lemmatized_docs = []
 
-    data_tagged = list(map(lambda x: (x[0], part_of_speech_tagger(x[1])), pos_tagged))
+    for doc in documents:
 
-    lemmatized_data = []
+        current_doc = nlp(doc)
+        lemmatized_doc = " ".join([token.lemma_ for token in current_doc])
+        lemmatized_docs.append(lemmatized_doc)
 
-    for word, tag in data_tagged:
-        if tag is None:
-            lemmatized_data.append(word)
-        else:
-            lemmatized_data.append(lemmatizer.lemmatize(word, tag))
-
-    return " ".join(lemmatized_data)
+    return lemmatized_docs
 
 
 def part_of_speech_tagger(nltk_tag):

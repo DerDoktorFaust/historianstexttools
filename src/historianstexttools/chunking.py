@@ -1,9 +1,3 @@
-def chunk(number_of_sentences=1, overlap=0, language='english'):
-    pass
-
-def semantic_chunking(documents, language='english'):
-    pass
-
 def sentence_chunking(documents, language='english'):
     from nltk.tokenize import sent_tokenize
 
