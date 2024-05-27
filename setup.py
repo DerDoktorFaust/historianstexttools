@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 # use python setup.py sdist bdist_wheel to build
 # then twine upload dist/* to upload to PyPi
 
-VERSION = "0.0.1"
+VERSION = "0.0.2"
 DESCRIPTION = "Common tools for historians to aid text analysis."
 LONG_DESCRIPTION = "Common tools for historians to parse text more easily before feeding the text into larger text analysis pipelines."
 
