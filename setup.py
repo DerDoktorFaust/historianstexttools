@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 
 # use python setup.py sdist bdist_wheel to build
-# then twine upload dist/* to upload to PyPi
+# then twine upload dist/* to upload to PyPi (note, include the prepend pypi-...apikey
 
 VERSION = "0.0.2"
 DESCRIPTION = "Common tools for historians to aid text analysis."
