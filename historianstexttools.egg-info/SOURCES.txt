@@ -11,4 +11,5 @@ src/historianstexttools/chunking.py
 src/historianstexttools/cleantext.py
 src/historianstexttools/dataloaders.py
 src/historianstexttools/filemanipulation.py
+src/historianstexttools/historianstexttools.py
 src/historianstexttools/tester.py
