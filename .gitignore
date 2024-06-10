@@ -1,2 +1,14 @@
 ./src/historianstexttools/data
 ./src/historianstexttools/tester.py
+src/historianstexttools/data/testdata2.txt
+src/historianstexttools/data/testdata1.txt
+src/historianstexttools/__pycache__/historianstexttools.cpython-310.pyc
+build/lib/src/historianstexttools/tester.py
+dist/historianstexttools-0.0.2-py3-none-any.whl
+dist/historianstexttools-0.0.2.tar.gz
+dist/historianstexttools-0.0.3-py3-none-any.whl
+dist/historianstexttools-0.0.3.tar.gz
+historianstexttools.egg-info/requires.txt
+src/historianstexttools/tester.py
+src/historianstexttools/__pycache__/cleantext.cpython-310.pyc
+src/historianstexttools/__pycache__/dataloaders.cpython-310.pyc
