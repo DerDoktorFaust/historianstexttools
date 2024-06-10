@@ -12,3 +12,6 @@ historianstexttools.egg-info/requires.txt
 src/historianstexttools/tester.py
 src/historianstexttools/__pycache__/cleantext.cpython-310.pyc
 src/historianstexttools/__pycache__/dataloaders.cpython-310.pyc
+build/lib/src/historianstexttools/__pycache__/cleantext.cpython-310.pyc
+build/lib/src/historianstexttools/__pycache__/dataloaders.cpython-310.pyc
+build/lib/src/historianstexttools/__pycache__/historianstexttools.cpython-310.pyc
